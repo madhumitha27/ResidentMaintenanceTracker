@@ -1,0 +1,60 @@
+﻿﻿{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>VNA</title>
+
+</head>
+<body class="bg-primary">
+    <div class="container text-center my-auto mt-4" >
+         <div  class="">
+            <img style="margin-top:20px;" width="100" height="100" src="{% static 'img/logo.png' %}" alt="logo" title="logo" border="0">
+         </div>
+         <h1 class="mb-1">AirBnb Apartment</h1>
+         <h3 class="mb-5">
+            <em>Start living more fully at AirBnb Apartments and Townhomes! </em>
+         </h3>
+      </div>
+    <div class="row">
+        <h2 style="padding-left: 15Px">Appointments Summary</h2>
+    </div>
+
+    {% if requests %}
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr class="bg-info">
+
+                    <td>  Requested Date  </td>
+                    <td>  Priority  </td>
+                    <td>  Description  </td>
+                    <td>  Access Instructions  </td>
+                    <td>  Type  </td>
+                    <td>  Completed Date  </td>
+
+                </tr>
+            </thead>
+            <tbody>
+                 {% for req in requests %}
+                <tr>
+                    <td>{{ req.created_date }}</td>
+                    <td>{{ req.priority }}</td>
+                    <td>{{ req.desc }}</td>
+                    <td>{{ req.accessInstructions}}</td>
+                    <td>{{ req.type }}</td>
+                    <td>{{ req.updated_date }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+    {% else %}
+                <div class="row">
+                     <h2 style="padding-left: 15Px">No Maintenance requests in this date!!</h2>
+                 </div>
+    {% endif %}
+    </div>
+
+</body>
+</html>
+{% endblock %}

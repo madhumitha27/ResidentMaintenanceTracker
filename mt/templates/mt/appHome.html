@@ -1,0 +1,113 @@
+{% extends 'mt/appBase.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<h1 class="mt-4">Dashboard</h1>
+{% endif %}
+{% if user.is_authenticated and user.is_superuser %}
+<div class="row">
+   <div class="col-md-4">
+      <div class="card mb-2">
+         <div class="card-body">
+            <h2>Add Unit Details</h2>
+            <p>Add unit details for the apartment. </p>
+            <p><a class="btn btn-primary" href="{% url 'mt:adminUnit_list' %}"
+               role="button">View
+               details &raquo;</a>
+            </p>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="card mb-4">
+         <div class="card-body">
+            <h2>Manage Users</h2>
+            <p>Able to manage users using this website </p>
+            <p><a class="btn btn-primary" href="{% url 'mt:userList' %}"
+               role="button">View
+               details &raquo;</a>
+            </p>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="card mb-4">
+         <div class="card-body">
+            <h2>Reports</h2>
+            <p>Able to download completed maintenance request. </p>
+            <p><a class="btn btn-primary" href="{% url 'mt:search_form' %}"
+               role="button">View
+               details &raquo;</a>
+            </p>
+         </div>
+      </div>
+   </div>
+</div>
+{% elif user.is_authenticated and user.groups.all.0.name == "resident" %}
+<div class="row">
+   <div class="col-md-4">
+      <div class="card mb-2">
+         <div class="card-body">
+            <h2>Requests</h2>
+            <p>you will able to submit request for maintenance </p>
+            <p><a class="btn btn-primary" href="{% url 'mt:request_list' %}"
+               role="button">View
+               details &raquo;</a>
+            </p>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="card mb-4">
+         <div class="card-body">
+            <h2>Profile</h2>
+            <p>you will be able to update profile info. </p>
+            <p><a class="btn btn-primary" href="{% url 'mt:res_profile' %}"
+               role="button">View
+               details &raquo;</a>
+            </p>
+         </div>
+      </div>
+   </div>
+</div>
+{% elif user.is_authenticated and user.groups.all.0.name == "Staff" %}
+<div class="row">
+   <div class="col-md-4">
+      <div class="card mb-2">
+         <div class="card-body">
+            <h2>Assign Units</h2>
+            <p>You will be able to assign units to residents signed up. </p>
+            <p><a class="btn btn-primary" href="{% url 'mt:res_unit' %}"
+               role="button">View
+               details &raquo;</a>
+            </p>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="card mb-4">
+         <div class="card-body">
+            <h2>Requests</h2>
+            <p>You will be able to modify the resident requests. </p>
+            <p><a class="btn btn-primary" href="{% url 'mt:staffrequest_list' %}"
+               role="button">View
+               details &raquo;</a>
+            </p>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="card mb-4">
+         <div class="card-body">
+            <h2>Mail</h2>
+            <p>You will be able to send mail to residents. </p>
+            <p><a class="btn btn-primary" href="{% url 'mt:resident_email' %}"
+               role="button">View
+               details &raquo;</a>
+            </p>
+         </div>
+      </div>
+   </div>
+</div>
+{% endif %}
+{% endblock %}

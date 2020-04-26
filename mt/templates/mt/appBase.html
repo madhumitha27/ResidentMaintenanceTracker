@@ -1,0 +1,128 @@
+{% load static %}
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Resident Maintenance Tracker</title>
+      <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+      <link href="{% static 'assets/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+   </head>
+   <body class="sb-nav-fixed">
+      <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+         <div  class="">
+            <img style="margin-left:5px;" width="30" height="30" src="{% static 'img/logo.png' %}" alt="logo" title="logo" border="0">
+         </div>
+         <a class="navbar-brand" href="{% url 'mt:home' %}">AirBnb</a>
+         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+         <!-- Navbar-->
+
+            {% if user.is_authenticated and user.is_superuser %}
+
+                 <button class="btn btn-success ml-auto mr-1">Admin view</button>
+            {% elif user.is_authenticated and user.groups.all.0.name == "resident" %}
+
+              <button class="btn btn-success ml-auto mr-1">Resident View</button>
+            {% elif user.is_authenticated and user.groups.all.0.name == "Staff" %}
+            <button class="btn btn-success ml-auto mr-1">Staff View</button>
+            {% endif %}
+
+         <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+
+
+            <ul class="navbar-nav ml-auto ml-md-0">
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                     <a class="dropdown-item" href="{% url 'password_change' %}">
+                          <div class="sb-nav-link-icon"><i class="fas fa-fw fa-wrench"></i>  Change Password</div>
+                      </a>
+                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}">
+                          <div class="sb-nav-link-icon"><i class="fas fa-fw fa-power-off"></i> Logout</div>
+                    </a>
+                  </div>
+               </li>
+            </ul>
+         </div>
+      </nav>
+      <div id="layoutSidenav">
+         <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+               <div class="sb-sidenav-menu">
+                  <div class="nav">
+                     {% if user.is_authenticated and user.is_superuser %}
+
+                     <a class="nav-link" href="{% url 'mt:adminUnit_list' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                        Add Unit Details
+                     </a>
+                     <a class="nav-link" href="{% url 'mt:userList' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div>
+                        Manage Users
+                     </a>
+                     <a class="nav-link" href="{% url 'mt:search_form' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-fw fa-chart-area"></i></div>
+                        Reports
+                     </a>
+                     {% elif user.is_authenticated and user.groups.all.0.name == "resident" %}
+                     <a class="nav-link" href="{% url 'mt:request_list' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-fw fa-edit"></i></div>
+                        Requests
+                     </a>
+                     <a class="nav-link" href="{% url 'mt:res_profile' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div>
+                        Profile
+                     </a>
+                     {% elif user.is_authenticated and user.groups.all.0.name == "Staff" %}
+                     <a class="nav-link" href="{% url 'mt:res_unit' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                        Assign Units
+                     </a>
+                     <a class="nav-link" href="{% url 'mt:staffrequest_list' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-fw fa-edit"></i></div>
+                        Requests
+                     </a>
+                     <a class="nav-link" href="{% url 'mt:resident_email' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
+                        Mail
+                     </a>
+                     {% endif %}
+                  </div>
+               </div>
+               <div class="sb-sidenav-footer">
+                  <div class="small">Logged in as:</div>
+                  {{ user.username }}
+               </div>
+            </nav>
+         </div>
+         <div id="layoutSidenav_content">
+            <main>
+               <div class="container-fluid">
+                  {% block content %}
+                  {% endblock %}
+               </div>
+            </main>
+                <!-- Footer -->
+   <footer class="py-4 bg-light mt-auto">
+               <div class="container-fluid">
+                  <div class="d-flex align-items-center justify-content-between small">
+                     <div class="text-muted">Copyright &copy; AirBnb Apartments 2020</div>
+                     <div>
+                        <a style="color:black;" href="#">Privacy Policy</a>
+                        &middot;
+                        <a style="color:black;"  href="#">Terms &amp; Conditions</a>
+                     </div>
+                  </div>
+               </div>
+            </footer>
+         </div>
+      </div>
+      <script src="{% static 'assets/jquery/jquery.min.js' %}" crossorigin="anonymous"></script>
+      <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+      <script src="{% static 'js/scripts.js' %}"></script>
+   </body>
+</html>

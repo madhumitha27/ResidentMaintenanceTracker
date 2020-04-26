@@ -1,0 +1,35 @@
+{% extends 'mt/appBase.html' %}
+{% block content %}
+        <h2 style="padding-left: 15Px">Request Information</h2>
+<ol class="breadcrumb mb-4">
+   <li class="breadcrumb-item"><a href="{% url 'mt:home' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'mt:res_unit' %}">Assign Unit Information</a></li>
+   <li class="breadcrumb-item active">Unit Information</li>
+</ol>
+         <a href="{% url 'mt:res_unit' %}"><span
+                    class="btn btn-primary">Assign Unit Section</span></a>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr class="bg-info">
+                 <th>Unit ID</th>
+                <th>Apt Number</th>
+                <th>Street</th>
+                <th>State</th>
+                <th>City</th>
+                <th>ZipCode</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for unit in unitList %}
+                <tr>
+                     <td>{{ unit.unitID }}</td>
+                    <td>{{ unit.aptNo }}</td>
+                    <td>{{ unit.street }}</td>
+                    <td>{{ unit.state }}</td>
+                    <td>{{ unit.city }}</td>
+                    <td>{{ unit.zipcode }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

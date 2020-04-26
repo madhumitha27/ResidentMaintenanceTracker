@@ -1,0 +1,9 @@
+{% extends 'mt/appBase.html' %}
+{% block content %}
+<h1>Sent an email!</h1>
+<ol class="breadcrumb mb-4">
+   <li class="breadcrumb-item"><a href="{% url 'mt:home' %}">Dashboard</a></li>
+   <li class="breadcrumb-item"><a href="{% url 'mt:resident_email' %}">Send Mail</a></li>
+   <li class="breadcrumb-item active">Sent</li>
+</ol>
+{% endblock %}
