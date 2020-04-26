@@ -13,10 +13,10 @@ class residentTest(unittest.TestCase):
 
    def test_blog(self):
        user = "resident1"
-       pwd = "Windows@123"
+       pwd = "Welcome@123"
        driver = self.driver
        driver.maximize_window()
-       driver.get("http://127.0.0.1:8000/")
+       driver.get("http://madaad.pythonanywhere.com/")
        menuLink = driver.find_element_by_xpath ( "/html/body/a[1]" ).click ( )
        time.sleep ( 1 )
        loginEle = driver.find_element_by_xpath ( "/html/body/nav/ul/li[2]/a" ).click ( )
@@ -79,13 +79,13 @@ class residentTest(unittest.TestCase):
            "/html/body/nav/div[2]/ul/li/div/a[1]" ).click ( )
        time.sleep ( 1 )
        oldPwd = driver.find_element_by_id ( "id_old_password" )
-       oldPwd.send_keys ( "Windows@123" )
+       oldPwd.send_keys ( "Welcome@123" )
        time.sleep ( 1 )
        newPwd1 = driver.find_element_by_id ( "id_new_password1" )
-       newPwd1.send_keys ( "Welcome@123" )
+       newPwd1.send_keys ( "Windows@123" )
        time.sleep ( 1 )
        newPwd2 = driver.find_element_by_id ( "id_new_password2" )
-       newPwd2.send_keys ( "Welcome@123" )
+       newPwd2.send_keys ( "Windows@123" )
        time.sleep ( 1 )
        changeButton = driver.find_element_by_xpath (
            "/html/body/div/div[2]/main/div/div/form/div/p/input" ).click ( )

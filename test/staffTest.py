@@ -12,11 +12,11 @@ class staffTest(unittest.TestCase):
        self.driver = webdriver.Chrome()
 
    def test_blog(self):
-       user = "testStaff"
-       pwd = "test@123"
+       user = "staff1"
+       pwd = "Welcome@123"
        driver = self.driver
        driver.maximize_window()
-       driver.get("http://127.0.0.1:8000/")
+       driver.get("http://madaad.pythonanywhere.com/")
        menuLink = driver.find_element_by_xpath ( "/html/body/a[1]" ).click ( )
        time.sleep ( 1 )
        loginEle = driver.find_element_by_xpath ( "/html/body/nav/ul/li[2]/a" ).click ( )
@@ -58,6 +58,9 @@ class staffTest(unittest.TestCase):
        time.sleep ( 1 )
        mailLink = driver.find_element_by_xpath (
            "/html/body/div/div[1]/nav/div[1]/div/a[3]" ).click ( )
+       time.sleep ( 1 )
+       subjectLink = driver.find_element_by_id ( "mail_id" )
+       subjectLink.send_keys ( "mvasudevan@unomaha.edu" )
        time.sleep ( 1 )
        subjectLink = driver.find_element_by_id ( "id_subject" )
        subjectLink.send_keys ( "Hello All" )

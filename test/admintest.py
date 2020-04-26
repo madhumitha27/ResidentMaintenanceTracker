@@ -16,7 +16,7 @@ class admintest(unittest.TestCase):
        pwd = "Welcome@123"
        driver = self.driver
        driver.maximize_window()
-       driver.get("http://127.0.0.1:8000/")
+       driver.get("http://madaad.pythonanywhere.com/")
        menuLink = driver.find_element_by_xpath ( "/html/body/a[1]" ).click ( )
        time.sleep(1)
        loginEle = driver.find_element_by_xpath ( "/html/body/nav/ul/li[2]/a" ).click ( )

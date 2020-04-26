@@ -14,7 +14,7 @@ class signupFeature(unittest.TestCase):
    def test_blog(self):
        driver = self.driver
        driver.maximize_window()
-       driver.get("http://127.0.0.1:8000/")
+       driver.get("http://madaad.pythonanywhere.com/")
        menuLink = driver.find_element_by_xpath ( "/html/body/a[1]" ).click ( )
        time.sleep(1)
        signupLink = driver.find_element_by_xpath ( "/html/body/nav/ul/li[3]/a" ).click ( )
