@@ -13,7 +13,7 @@ class admintest(unittest.TestCase):
 
    def test_blog(self):
        user = "instructor"
-       pwd = "Welcome@123"
+       pwd = "maverick1a"
        driver = self.driver
        driver.maximize_window()
        driver.get("http://madaad.pythonanywhere.com/")
@@ -27,7 +27,7 @@ class admintest(unittest.TestCase):
        loginEle.send_keys(pwd)
        loginEle.send_keys(Keys.RETURN)
        assert "Logged In"
-       time.sleep(1)
+       time.sleep(2)
        viewUnitButton = driver.find_element_by_xpath ( "/html/body/div/div[1]/nav/div[1]/div/a[1]" ).click ( )
        time.sleep(1)
        addUnitButton = driver.find_element_by_xpath ("/html/body/div/div[2]/main/div/a" ).click ( )
@@ -71,7 +71,7 @@ class admintest(unittest.TestCase):
            "/html/body/div/div[1]/nav/div[1]/div/a[2]" ).click ( )
        time.sleep ( 1)
        editUser = driver.find_element_by_xpath (
-           "/html/body/div/div[2]/main/div/table/tbody/tr[6]/td[6]/a" ).click ( )
+           "/html/body/div/div[2]/main/div/table/tbody/tr[5]/td[6]/a" ).click ( )
        time.sleep ( 1 )
        firstName = driver.find_element_by_id ( 'id_first_name' )
        firstName.clear ( )
@@ -93,7 +93,7 @@ class admintest(unittest.TestCase):
            "/html/body/div/div[2]/main/div/div/form/button" ).click ( )
        time.sleep ( 1 )
        deleteUser = driver.find_element_by_xpath (
-           "/html/body/div/div[2]/main/div/table/tbody/tr[6]/td[7]/a" ).click ( )
+           "/html/body/div/div[2]/main/div/table/tbody/tr[5]/td[7]/a" ).click ( )
        time.sleep ( 1)
        obj = driver.switch_to.alert
        time.sleep ( 1 )

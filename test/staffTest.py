@@ -59,8 +59,9 @@ class staffTest(unittest.TestCase):
        mailLink = driver.find_element_by_xpath (
            "/html/body/div/div[1]/nav/div[1]/div/a[3]" ).click ( )
        time.sleep ( 1 )
-       subjectLink = driver.find_element_by_id ( "mail_id" )
-       subjectLink.send_keys ( "mvasudevan@unomaha.edu" )
+       mailText = driver.find_element_by_id ( "clientemail" )
+       mailText.clear()
+       mailText.send_keys ( "mvasudevan@unomaha.edu" )
        time.sleep ( 1 )
        subjectLink = driver.find_element_by_id ( "id_subject" )
        subjectLink.send_keys ( "Hello All" )

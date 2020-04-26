@@ -38,7 +38,7 @@ class residentTest(unittest.TestCase):
        prioritySelect.select_by_visible_text ( 'URGENT' )
        time.sleep ( 1 )
        typeSelect = Select ( driver.find_element_by_id ( 'id_type' ) )
-       typeSelect.select_by_value ( '1' )
+       typeSelect.select_by_visible_text ( 'Building Interior' )
        time.sleep ( 1 )
        accessIn = driver.find_element_by_id ( 'id_accessInstructions' )
        accessIn.send_keys ( "Please enter between 10 AM to 4 PM" )
