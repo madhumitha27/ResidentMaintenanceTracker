@@ -4,6 +4,7 @@ from staffTest import staffTest
 from residentTest import residentTest
 from ResetPassword import ResetPassword
 from signupFeature import signupFeature
+from categoryFeature import categoryFeature
 
 if __name__ == "__main__":
     loader = TestLoader()
@@ -13,6 +14,7 @@ if __name__ == "__main__":
         loader.loadTestsFromTestCase(residentTest),
         loader.loadTestsFromTestCase(staffTest),
         loader.loadTestsFromTestCase(admintest),
+        loader.loadTestsFromTestCase ( categoryFeature ) ,
 
     ))
 
