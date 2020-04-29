@@ -153,6 +153,7 @@ def adminUnit_list ( request ) :
     return render ( request , 'mt/AdminUnitList.html' ,
                     {'unitList' : unitList} )
 def res_profile(request):
+    print('test');
     userObject = User.objects.get ( id=request.user.id )
     residentObject = ResidentDetail.objects.get ( username_id=request.user.id  )
     unitID=residentObject.unitID_id
@@ -163,12 +164,14 @@ def res_profile(request):
         tempVariable="yes"
     coResuserObject = ""
     unitDetail=""
-    if(unitID is not None):
-         coResident =ResidentDetail.objects.filter(is_Primary=tempVariable , unitID_id=unitID)
-         print(coResident)
-         unitDetail= UnitDetail.objects.get ( id=unitID  )
-         if(coResident.count()==1):
-           coResuserObject = User.objects.get ( id=coResident.username_id )
+    print(unitID)
+
+    coResident =ResidentDetail.objects.filter(is_Primary=tempVariable , unitID_id=unitID)
+    if(unitID):
+        unitDetail = UnitDetail.objects.get ( id=unitID )
+    if(coResident):
+            coResident = ResidentDetail.objects.get ( is_Primary=tempVariable , unitID_id=unitID )
+            coResuserObject = User.objects.get ( id=coResident.username_id )
     return render ( request , 'mt/residentProfile.html' ,
                     {'userDetail' : userObject ,
                      'residentDetail' : residentObject,
@@ -291,7 +294,7 @@ def resident_email(request):
             email = EmailMessage ( subject , content , email_from , recipient_list )
             print ( 'sent' )
             email.send( )
-
+            print ( 'sent' )
             return render(request, 'mt/sent.html')
     else:
         recList=', '.join(recipient_list)
