@@ -278,23 +278,16 @@ def search_form(request):
 
 def resident_email(request):
     recipient_list = list ( ResidentDetail.objects.filter().values_list ( 'email' , flat=True ) )
-    print(recipient_list)
-    print(request.method)
     if request.method == "POST":
         form = EmailForm(request.POST)
-        print(form)
-        print(form.cleaned_data['subject'])
-        print(form.cleaned_data['mail_id'])
         if form.is_valid():
-            print('heelo')
             form.save()
             subject = request.POST.get('subject')
             content = request.POST.get('content')
+            recList=[request.POST.get('mail_id')]
             email_from = settings.EMAIL_HOST_USER
-            email = EmailMessage ( subject , content , email_from , recipient_list )
-            print ( 'sent' )
+            email = EmailMessage ( subject , content , email_from ,recList)
             email.send( )
-            print ( 'sent' )
             return render(request, 'mt/sent.html')
     else:
         recList=', '.join(recipient_list)
