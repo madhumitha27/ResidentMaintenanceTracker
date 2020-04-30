@@ -12,7 +12,7 @@ class residentTest(unittest.TestCase):
        self.driver = webdriver.Chrome()
 
    def test_blog(self):
-       user = "resident1"
+       user = "resident3"
        pwd = "Welcome@123"
        driver = self.driver
        driver.maximize_window()

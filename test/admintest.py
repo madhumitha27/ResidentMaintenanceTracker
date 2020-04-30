@@ -71,7 +71,7 @@ class admintest(unittest.TestCase):
            "/html/body/div/div[1]/nav/div[1]/div/a[2]" ).click ( )
        time.sleep ( 1)
        editUser = driver.find_element_by_xpath (
-           "/html/body/div/div[2]/main/div/table/tbody/tr[5]/td[6]/a" ).click ( )
+           "/html/body/div/div[2]/main/div/table/tbody/tr[7]/td[6]/a" ).click ( )
        time.sleep ( 1 )
        firstName = driver.find_element_by_id ( 'id_first_name' )
        firstName.clear ( )
@@ -93,7 +93,7 @@ class admintest(unittest.TestCase):
            "/html/body/div/div[2]/main/div/div/form/button" ).click ( )
        time.sleep ( 1 )
        deleteUser = driver.find_element_by_xpath (
-           "/html/body/div/div[2]/main/div/table/tbody/tr[5]/td[7]/a" ).click ( )
+           "/html/body/div/div[2]/main/div/table/tbody/tr[7]/td[7]/a" ).click ( )
        time.sleep ( 1)
        obj = driver.switch_to.alert
        time.sleep ( 1 )
