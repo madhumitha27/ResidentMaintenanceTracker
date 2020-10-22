@@ -23,7 +23,15 @@ PRIMARY = (
     ('yes','YES'),
     ('no', 'NO'),
 )
-
+LOCATION = (
+    ('1','PARTY HALL'),
+    ('2', 'SWIMMING POOL'),
+    ('3', 'KIDS PLAYING AREA'),
+)
+EVENTSTATUS = (
+    ('approve','APPROVED'),
+    ('decline', 'DECLINED')
+)
 class UnitDetail(models.Model):
     unitID = models.PositiveIntegerField()
     aptNo = models.PositiveIntegerField ()
@@ -115,6 +123,45 @@ class RequestDetail(models.Model):
     def __str__(self):
         return str(self.username)
 
+class EventsDetail(models.Model):
+    username=models.ForeignKey(ResidentDetail, on_delete=models.CASCADE, related_name='users')
+    eventDate =models.DateField(max_length=100)
+    startTime = models.TimeField ( max_length=100)
+    endTime = models.TimeField ( max_length=100 )
+    description=models.CharField(max_length=200)
+    amount = models.CharField ( max_length=200 , blank=True , null=True )
+    advAmtPaid = models.CharField ( max_length=200 , blank=True , null=True )
+    location = models.CharField (max_length=50, choices=LOCATION )
+    status = models.CharField ( max_length=50 , choices=EVENTSTATUS, blank=True)
+    reason = models.CharField ( max_length=200 , blank=True , null=True )
+    participantCount = models.CharField ( max_length=200  )
+    created_date = models.DateTimeField ( default=timezone.now )
+    updated_date = models.DateTimeField ( auto_now_add=True )
+    modifiedBy = models.CharField ( max_length=200)
+
+    def updated(self):
+        self.updated_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return str(self.username)
+
+class PackageDetail(models.Model):
+    username=models.ForeignKey(ResidentDetail, on_delete=models.CASCADE, related_name='user')
+    description =  models.CharField ( max_length=200 )
+    pickupDateTime =  models.DateTimeField ( default=timezone.now ,  blank=True , null=True)
+    pickupPerson = models.CharField ( max_length=200 , blank=True , null=True )
+    created_date = models.DateTimeField ( default=timezone.now )
+    updated_date = models.DateTimeField ( auto_now_add=True )
+    modifiedBy = models.CharField ( max_length=200  )
+
+    def updated(self):
+        self.updated_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return str(self.username)
+
 class Communication(models.Model):
     mail_id=models.CharField(max_length=200)
     subject = models.CharField(max_length=200)
@@ -132,3 +179,5 @@ class Communication(models.Model):
     def updated(self):
         self.updated_date = timezone.now()
         self.save()
+
+

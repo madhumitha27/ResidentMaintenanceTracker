@@ -36,6 +36,22 @@ class RequestDetailList(admin.ModelAdmin):
 
 admin.site.register(RequestDetail,RequestDetailList)
 
+class EventsDetailList(admin.ModelAdmin):
+    list_display = ('username','eventDate', 'startTime', 'endTime','location','status','reason')
+    list_filter = ( 'username','eventDate', 'startTime', 'endTime','location','status','reason')
+    search_fields = ('username','eventDate', 'startTime', 'endTime','location','status','reason')
+    ordering = ['username']
+
+admin.site.register(EventsDetail,EventsDetailList)
+
+class PackageDetailList(admin.ModelAdmin):
+    list_display = ( 'username','description', 'pickupDateTime', 'pickupPerson')
+    list_filter = ( 'username','description', 'pickupDateTime', 'pickupPerson')
+    search_fields = ('username','description', 'pickupDateTime', 'pickupPerson')
+    ordering = ['username']
+
+admin.site.register(PackageDetail,PackageDetailList)
+
 class CommunicationList(admin.ModelAdmin):
     list_display = ( 'mail_id', 'subject', 'content','created_date')
     list_filter = ( 'mail_id', 'subject','content',)
