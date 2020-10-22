@@ -1,7 +1,6 @@
 
 from datetime import date
 
-import pdfkit
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth import authenticate , login
