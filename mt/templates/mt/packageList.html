@@ -31,7 +31,7 @@
                          <td>{{ package.description }}</td>
                          <td>{{ package.username}}</td>
                          <td>{{ package.username.unitID }}</td>
-                         <td>{{ package.username.aptNo }}</td>
+                         <td>{{ package.username.unitID.aptNo }}</td>
                           <td>{{ package.pickupDateTime }}</td>
                           <td>{{ package.pickupPerson }}</td>
                             <td><a href="{% url 'mt:package_edit' pk=package.pk %}" class= "btn btn-warning">Update Details & Send Email</a>
