@@ -131,9 +131,9 @@ class RequestDetail(models.Model):
 
 class EventsDetail(models.Model):
     username=models.ForeignKey(ResidentDetail, on_delete=models.CASCADE, related_name='users')
-    eventDate =models.DateField( )
-    eventStartTime =models.TimeField()
-    eventEndTime = models.TimeField ()
+    eventDate =models.DateField( auto_now=False, auto_now_add=False)
+    eventStartTime =models.TimeField(auto_now=False, auto_now_add=False)
+    eventEndTime = models.TimeField (auto_now=False, auto_now_add=False)
     description=models.CharField(max_length=200)
     amount = models.PositiveIntegerField ( blank=True , null=True )
     advAmtPaid = models.PositiveIntegerField (blank=True , null=True )
