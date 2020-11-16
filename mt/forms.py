@@ -59,7 +59,6 @@ class PackageForm(forms.ModelForm):
 
     def __init__ ( self , *args , **kwargs ) :
         super ( PackageForm , self ).__init__ ( *args , **kwargs )
-        self.fields['pickupDateTime'].widget = DateTimeInput ( )
 
 class PackageEditForm(forms.ModelForm):
     class Meta:
