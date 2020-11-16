@@ -12,12 +12,18 @@ urlpatterns = [
 
     path ( 'register/' , views.register , name='register' ) ,
     path('request_list', views.request_list, name='request_list'),
+    path('booking_list', views.booking_list, name='booking_list'),
+    path('package_list', views.package_list, name='package_list'),
     path ( 'unit_list' , views.unit_list , name='unit_list' ) ,
     path ( 'AdminUnit_list' , views.adminUnit_list , name='adminUnit_list' ) ,
     path ( 'staff_request_list' , views.staffrequest_list , name='staffrequest_list' ) ,
     path('request/create/', views.request_new, name='request_new'),
+    path('booking/create/', views.reservation_new, name='reservation_new'),
+    path('package/create/', views.package_new, name='package_new'),
     path('unit/add/', views.unit_add, name='unit_add'),
     path ( 'request/<int:pk>/edit/' , views.request_edit , name='request_edit' ) ,
+    path ( 'package/<int:pk>/edit/' , views.package_edit , name='package_edit' ) ,
+    path ( 'booking/<int:pk>/edit/' , views.booking_edit , name='booking_edit' ) ,
     path ( 'res_unit' , views.res_unit , name='res_unit' ) ,
     path ( 'res_profile' , views.res_profile , name='res_profile' ) ,
     path ( 'resident/<int:pk>/edit/' , views.resprofile_edit , name='resprofile_edit' ) ,
@@ -27,6 +33,7 @@ urlpatterns = [
     path ( 'user/<username>/delete/' , views.user_delete , name='user_delete' ) ,
     path ( 'search_form' , views.search_form , name='search_form' ) ,
     url ( 'resident_email/' , views.resident_email , name='resident_email' ) ,
+    url ( r'^staffcalendar/$' , views.CalendarStaffView.as_view ( ) , name='staffcalendar' ) ,
 
 
 ]

@@ -1,6 +1,5 @@
-
-from datetime import date
-
+from datetime import datetime, timedelta, date
+from django.utils.safestring import mark_safe
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth import authenticate , login
@@ -15,11 +14,13 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User , Group
 from reportlab.pdfgen import canvas
-
+import calendar
 from .forms import RequestsForm , RequestsEditForm , ResUnitForm , ResProfileForm , UnitEditForm , RegisterForm , \
-    SubmissionExportForm , EmailForm , LoginForm , UserEditForm
-from .models import RequestDetail , ResidentDetail , UnitDetail
-from .utils import render_to_pdf
+    PackageForm , SubmissionExportForm , \
+    EmailForm , LoginForm , UserEditForm , ReservationForm , ReservationEditForm , PackageEditForm
+from .models import RequestDetail , ResidentDetail , UnitDetail , EventsDetail,PackageDetail
+from .utils import render_to_pdf , StaffCalendar
+from django.views import generic
 
 def index(request):
     return render(request, 'mt/index.html')
@@ -98,14 +99,33 @@ def request_list(request):
     return render(request, 'mt/request_list.html',
                  {'requests': MainRrequests})
 
+@login_required
+def booking_list(request):
+
+    user = User.objects.get ( pk=request.user.id )
+    if user.groups.filter ( name='resident' ).exists ( ) :
+        print ( 'resident' )
+        ResidentObject = ResidentDetail.objects.get ( username_id=request.user.id )
+        EventsDetailList = EventsDetail.objects.filter ( username_id=ResidentObject.id )
+
+    else :
+       EventsDetailList = EventsDetail.objects.all()
+    return render(request, 'mt/BookingList.html',
+                 {'EventsDetailList': EventsDetailList})
+
+@login_required
+def package_list(request):
+    PackageDetailList = PackageDetail.objects.all()
+
+    return render(request, 'mt/packageList.html',
+                 {'PackageList': PackageDetailList})
+
 def request_new(request):
    print('inside')
    if request.method == "POST":
        form = RequestsForm(request.POST)
        if form.is_valid():
            requestObject = form.save(commit=False)
-           today = date.today ( )
-           requestObject.created_date =today
            requestObject.status = "new"
            requestObject.modifiedBy = request.user.username
            ResidentObject = ResidentDetail.objects.get ( username_id=request.user.id )
@@ -120,6 +140,64 @@ def request_new(request):
        form = RequestsForm()
        # print("Else")
    return render(request, 'mt/request_new.html', {'form': form})
+
+def reservation_new(request):
+   print('inside')
+   if request.method == "POST":
+       form = ReservationForm(request.POST)
+       if form.is_valid():
+           reservationObject = form.save(commit=False)
+           today = date.today ( )
+           reservationObject.created_date =today
+           reservationObject.status = "NEW"
+           reservationObject.reason = "-"
+           reservationObject.amount = "0"
+           reservationObject.advAmtPaid = "0"
+           reservationObject.modifiedBy = request.user.username
+
+           ResidentObject = ResidentDetail.objects.get ( username_id=request.user.id )
+           EventsDetailList = EventsDetail.objects.filter ( username_id=ResidentObject.id )
+
+           reservationObject.username_id=ResidentObject.id
+           reservationObject.save()
+           print('saved')
+
+           return render(request, 'mt/BookingList.html',
+                         {'EventsDetailList': EventsDetailList})
+   else:
+       form = ReservationForm()
+       # print("Else")
+   return render(request, 'mt/reservation_new.html', {'form': form})
+
+
+def sendEmail(subject,content,email_from,recList):
+    email = EmailMessage ( subject , content , email_from , recList )
+    email.send ( )
+
+
+def package_new(request):
+   print('inside')
+   if request.method == "POST":
+       form = PackageForm(request.POST)
+       if form.is_valid():
+           packageObject = form.save(commit=False)
+           today = date.today ( )
+           packageObject.created_date =today
+           packageObject.modifiedBy = request.user.username
+           packageObject.save ( )
+           print('saved')
+           subject = "A Package Received!!!!"
+           content = "You have received package from "+packageObject.description
+           recList = [packageObject.username.email]
+           email_from = settings.EMAIL_HOST_USER
+           sendEmail(subject,content,email_from,recList)
+           return render(request, 'mt/packageSentEmail.html')
+   else:
+       form = PackageForm()
+       # print("Else")
+   return render(request, 'mt/packageNew.html', {'form': form})
+
+
 
 def staffrequest_list(request):
     print ( request.user.username )
@@ -136,6 +214,38 @@ def res_unit(request):
     return render ( request , 'mt/residentUnit.html' ,
                     {'resList' : resident} )
 
+class CalendarStaffView(generic.ListView):
+    model = EventsDetail
+    template_name = 'mt/viewCalendar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        d = get_date(self.request.GET.get('month', None))
+        cal = StaffCalendar(d.year, d.month)
+        html_cal = cal.formatmonth(withyear=True)
+        context['staffcalendar'] = mark_safe(html_cal)
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
+        return context
+
+def prev_month(d):
+    first = d.replace(day=1)
+    prev_month = first - timedelta(days=1)
+    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
+    return month
+
+def next_month(d):
+    days_in_month = calendar.monthrange(d.year, d.month)[1]
+    last = d.replace(day=days_in_month)
+    next_month = last + timedelta(days=1)
+    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
+    return month
+
+def get_date(req_month):
+    if req_month:
+        year, month = (int(x) for x in req_month.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()
 
 def unit_list ( request ) :
     print ( request.user.username )
@@ -193,6 +303,50 @@ def request_edit(request, pk):
        # print("else")
        form = RequestsEditForm(instance=req)
    return render(request, 'mt/staffEditRequest.html', {'form': form})
+
+@login_required
+def package_edit(request, pk):
+   print('edit req')
+   req = get_object_or_404(PackageDetail, pk=pk)
+   if request.method == "POST":
+       form = PackageEditForm(request.POST, instance=req)
+       if form.is_valid():
+           package = form.save(commit=False)
+           package.pickupDateTime = timezone.now ( )
+           package.updated_date = timezone.now()
+           package.modifiedBy = request.user.username
+
+           pickupDate=package.pickupDateTime.strftime("%Y-%m-%d")
+           pickupTime=package.pickupDateTime.strftime("%H:%M")
+           package.save ( )
+           subject = "Package PickedUP!!!!"
+           content = "Your "+package.description+" package picked up by " + package.pickupPerson +" at "+pickupDate+" , "+pickupTime+"."
+           recList = [package.username.email]
+           email_from = settings.EMAIL_HOST_USER
+           sendEmail ( subject , content , email_from , recList )
+           return render ( request , 'mt/packageSentEmail.html' )
+   else:
+       # print("else")
+       form = PackageEditForm(instance=req)
+   return render(request, 'mt/packageEdit.html', {'form': form})
+
+@login_required
+def booking_edit(request, pk):
+   print('edit req')
+   evtDetail = get_object_or_404(EventsDetail, pk=pk)
+   if request.method == "POST":
+       form = ReservationEditForm(request.POST, instance=evtDetail)
+       if form.is_valid():
+           service = form.save()
+           service.updated_date = timezone.now()
+           service.modifiedBy = request.user.username
+           service.save()
+           evtList = EventsDetail.objects.all()
+           return render(request, 'mt/BookingList.html', {'EventsDetailList': evtList})
+   else:
+       # print("else")
+       form = ReservationEditForm(instance=evtDetail)
+   return render(request, 'mt/reservation_new.html', {'form': form})
 
 @login_required
 def resUnit_edit(request, pk):
@@ -292,6 +446,8 @@ def resident_email(request):
         recList=', '.join(recipient_list)
         form = EmailForm(initial={'mail_id': recList})
         return render(request, 'mt/sendemail.html', {'form': form})
+
+
 
 
 

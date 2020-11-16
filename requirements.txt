@@ -6,4 +6,5 @@ reportlab==3.5.42
 psycopg2==2.8.6
 gunicorn
 django-heroku
+django-admin-rangefilter==0.6.3
 

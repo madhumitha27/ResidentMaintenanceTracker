@@ -1,0 +1,15 @@
+{% extends 'mt/appBase.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="col-md-12">
+
+   <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item"><a href="{% url 'mt:home' %}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'mt:package_list' %}">Package Information</a></li>
+      <li class="breadcrumb-item active">Package Email Information</li>
+   </ol>
+    <h1>Package Entry made/updated and mail sent to Resident.</h1>
+    <a href="{% url 'mt:package_list' %}"><span
+                      class="btn btn-primary">Back to Package List View</span></a>
+</div>
+{% endblock %}

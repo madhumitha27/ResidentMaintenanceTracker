@@ -5,7 +5,7 @@ from django.contrib.auth.models import User,Group
 from django.forms import DateInput
 from django.utils import timezone
 
-from .models import RequestDetail , ResidentDetail , UnitDetail , Communication
+from .models import RequestDetail , ResidentDetail , UnitDetail , Communication , PackageDetail,EventsDetail
 
 
 class RegisterForm(UserCreationForm):
@@ -42,6 +42,35 @@ class RequestsForm(forms.ModelForm):
         model = RequestDetail
         fields = ('priority', 'type', 'accessInstructions','desc', 'perToEnter')
 
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = EventsDetail
+        fields = ('eventDate', 'eventStartTime','eventEndTime','description', 'location','participantCount')
+    def __init__ ( self , *args , **kwargs ) :
+        super ( ReservationForm , self ).__init__ ( *args , **kwargs )
+        self.fields['eventDate'].widget = DateInput ( )
+        self.fields['eventStartTime'].widget = TimeInput ( )
+        self.fields['eventEndTime'].widget = TimeInput ( )
+
+class PackageForm(forms.ModelForm):
+    class Meta:
+        model = PackageDetail
+        fields = ('username', 'description','pickupPerson')
+
+    def __init__ ( self , *args , **kwargs ) :
+        super ( PackageForm , self ).__init__ ( *args , **kwargs )
+        self.fields['pickupDateTime'].widget = DateTimeInput ( )
+
+class PackageEditForm(forms.ModelForm):
+    class Meta:
+        model = PackageDetail
+        fields = ('username', 'description','pickupPerson')
+
+    def __init__ ( self , *args , **kwargs ) :
+        super ( PackageEditForm , self ).__init__ ( *args , **kwargs )
+        self.fields['username'].disabled = True
+        self.fields['description'].disabled = True
+
 class RequestsEditForm(forms.ModelForm):
     class Meta:
         model = RequestDetail
@@ -56,6 +85,19 @@ class RequestsEditForm(forms.ModelForm):
         self.fields['perToEnter'].disabled = True
         self.fields['desc'].disabled = True
 
+class ReservationEditForm(forms.ModelForm):
+    class Meta:
+        model = EventsDetail
+        fields = ('eventDate' , 'eventStartTime' ,'eventEndTime', 'description' , 'location' , 'participantCount','status','reason','amount','advAmtPaid')
+
+    def __init__ ( self , *args , **kwargs ) :
+        super ( ReservationEditForm , self ).__init__ ( *args , **kwargs )
+        self.fields['eventDate'].disabled = True
+        self.fields['eventStartTime'].disabled = True
+        self.fields['eventEndTime'].disabled = True
+        self.fields['description'].disabled = True
+        self.fields['location'].disabled = True
+        self.fields['participantCount'].disabled = True
 
 
 class ResUnitForm(forms.ModelForm):
@@ -83,8 +125,14 @@ class UnitEditForm(forms.ModelForm):
 class DateInput(forms.DateInput):
     input_type = "date"
 
+class TimeInput ( forms.TimeInput ) :
+        input_type = "time"
+
+class DateTimeInput(forms.DateTimeInput):
+    input_type = "datetime-local"
+
     def __init__(self, **kwargs):
-        kwargs["format"] = "%Y-%m-%d"
+        kwargs["format"] = "%Y-%m-%d %H:%M"
         super().__init__(**kwargs)
 
 class SubmissionExportForm(forms.Form):
@@ -103,6 +151,7 @@ class EmailForm(forms.ModelForm):
     class Meta:
         model = Communication
         fields = ('mail_id','subject','content')
+
 
 class LoginForm(forms.Form):
     email = forms.EmailField(required=True)

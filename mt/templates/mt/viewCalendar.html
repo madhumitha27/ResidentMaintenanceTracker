@@ -1,0 +1,15 @@
+{% extends 'mt/appBase.html' %}
+{% load static %}
+{% block content %}
+	{% if user.is_authenticated %}
+		 <h1>View Confirmed Events</h1>
+		   <ol class="breadcrumb mb-4">
+			  <li class="breadcrumb-item"><a href="{% url 'mt:home' %}">Dashboard</a></li>
+			  <li class="breadcrumb-item"><a href="{% url 'mt:booking_list' %}">Reservation Information</a></li>
+			  <li class="breadcrumb-item active">View Confirmed Events</li>
+		   </ol>
+		<a class="btn btn-info left" href="{% url 'mt:staffcalendar' %}?{{ prev_month }}"> Previous Month </a>
+		<a class="btn btn-info right" href="{% url 'mt:staffcalendar' %}?{{ next_month }}"> Next Month </a>
+			{{ staffcalendar }}
+ 	{% endif%}
+{% endblock %}

@@ -26,7 +26,7 @@ SECRET_KEY = 'ur*!%fzd^j_n^re)k2tgm9hfmo^5-o-ocla(!6jpk74bkt*-39'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','https://residentmgmttracker.herokuapp.com/']
 
 
 # Application definition
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'mt',
-    'crispy_forms'
+    'crispy_forms',
+    'rangefilter'
 ]
 
 MIDDLEWARE = [
@@ -139,5 +140,4 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD =os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
-
 django_heroku.settings(locals())

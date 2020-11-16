@@ -24,13 +24,19 @@ PRIMARY = (
     ('no', 'NO'),
 )
 LOCATION = (
-    ('1','PARTY HALL'),
-    ('2', 'SWIMMING POOL'),
-    ('3', 'KIDS PLAYING AREA'),
+    ('PARTY HALL','PARTY HALL'),
+    ('SWIMMING POOL', 'SWIMMING POOL'),
+    ('KIDS PLAYING AREA', 'KIDS PLAYING AREA'),
 )
 EVENTSTATUS = (
-    ('approve','APPROVED'),
-    ('decline', 'DECLINED')
+    ('APPROVED','APPROVED'),
+    ('DECLINED', 'DECLINED'),
+    ('NEW' , 'NEW')
+)
+GENDER = (
+    ('FEMALE','FEMALE'),
+    ('MALE', 'MALE'),
+    ('OTHERS' , 'OTHERS')
 )
 class UnitDetail(models.Model):
     unitID = models.PositiveIntegerField()
@@ -55,7 +61,7 @@ class UnitDetail(models.Model):
 
 class ResidentDetail(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE,related_name='residents')
-    gender = models.CharField(max_length=100,blank=True,null=True)
+    gender = models.CharField(max_length=100,choices=GENDER,blank=True,null=True)
     email=models.CharField(max_length=200,blank=True,null=True)
     dob = models.DateField(max_length=100,blank=True,null=True)
     vehNumber = models.CharField(max_length=100,blank=True,null=True)
@@ -108,7 +114,7 @@ class RequestDetail(models.Model):
     accessInstructions=models.CharField(max_length=200,blank=True,null=True)
     desc = models.CharField ( max_length=200 , blank=True , null=True )
     perToEnter = models.CharField (max_length=50, choices=PERMISSION , default='no' )
-    created_date = models.DateField()
+    created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now_add=True)
     modifiedBy=models.CharField(max_length=200,blank=True,null=True)
 
@@ -125,18 +131,18 @@ class RequestDetail(models.Model):
 
 class EventsDetail(models.Model):
     username=models.ForeignKey(ResidentDetail, on_delete=models.CASCADE, related_name='users')
-    eventDate =models.DateField(max_length=100)
-    startTime = models.TimeField ( max_length=100)
-    endTime = models.TimeField ( max_length=100 )
+    eventDate =models.DateField( )
+    eventStartTime =models.TimeField()
+    eventEndTime = models.TimeField ()
     description=models.CharField(max_length=200)
-    amount = models.CharField ( max_length=200 , blank=True , null=True )
-    advAmtPaid = models.CharField ( max_length=200 , blank=True , null=True )
+    amount = models.PositiveIntegerField ( blank=True , null=True )
+    advAmtPaid = models.PositiveIntegerField (blank=True , null=True )
     location = models.CharField (max_length=50, choices=LOCATION )
     status = models.CharField ( max_length=50 , choices=EVENTSTATUS, blank=True)
     reason = models.CharField ( max_length=200 , blank=True , null=True )
     participantCount = models.CharField ( max_length=200  )
     created_date = models.DateTimeField ( default=timezone.now )
-    updated_date = models.DateTimeField ( auto_now_add=True )
+    updated_date = models.DateTimeField ( default=timezone.now  )
     modifiedBy = models.CharField ( max_length=200)
 
     def updated(self):
@@ -148,8 +154,8 @@ class EventsDetail(models.Model):
 
 class PackageDetail(models.Model):
     username=models.ForeignKey(ResidentDetail, on_delete=models.CASCADE, related_name='user')
-    description =  models.CharField ( max_length=200 )
-    pickupDateTime =  models.DateTimeField ( default=timezone.now ,  blank=True , null=True)
+    description =  models.CharField (max_length=200 )
+    pickupDateTime =  models.DateTimeField(max_length=100, blank=True , null=True )
     pickupPerson = models.CharField ( max_length=200 , blank=True , null=True )
     created_date = models.DateTimeField ( default=timezone.now )
     updated_date = models.DateTimeField ( auto_now_add=True )

@@ -22,12 +22,12 @@
 
             {% if user.is_authenticated and user.is_superuser %}
 
-                 <button class="btn btn-success ml-auto mr-1">Admin view</button>
+                 <button class="btn btn-success ml-auto mr-1" disabled>Admin view</button>
             {% elif user.is_authenticated and user.groups.all.0.name == "resident" %}
 
-              <button class="btn btn-success ml-auto mr-1">Resident View</button>
+              <button class="btn btn-success ml-auto mr-1" disabled>Resident View</button>
             {% elif user.is_authenticated and user.groups.all.0.name == "staff" %}
-            <button class="btn btn-success ml-auto mr-1">Staff View</button>
+            <button class="btn btn-success ml-auto mr-1" disabled>Staff View</button>
             {% endif %}
 
          <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -73,6 +73,10 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-fw fa-edit"></i></div>
                         Requests
                      </a>
+                     <a class="nav-link" href="{% url 'mt:booking_list' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div>
+                        Amenity reservation
+                     </a>
                      <a class="nav-link" href="{% url 'mt:res_profile' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div>
                         Profile
@@ -85,6 +89,14 @@
                      <a class="nav-link" href="{% url 'mt:staffrequest_list' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-fw fa-edit"></i></div>
                         Requests
+                     </a>
+                     <a class="nav-link" href="{% url 'mt:booking_list' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-fw fa-edit"></i></div>
+                        Amenity Reservation
+                     </a>
+                     <a class="nav-link" href="{% url 'mt:package_list' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-fw fa-edit"></i></div>
+                        Package Tracking
                      </a>
                      <a class="nav-link" href="{% url 'mt:resident_email' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
@@ -106,9 +118,9 @@
                   {% endblock %}
                </div>
             </main>
+
                 <!-- Footer -->
    <footer class="py-4 bg-light mt-auto">
-               <div class="container-fluid">
                   <div class="d-flex align-items-center justify-content-between small">
                      <div class="text-muted">Copyright &copy; AirBnb Apartments 2020</div>
                      <div>
@@ -117,7 +129,6 @@
                         <a style="color:black;"  href="#">Terms &amp; Conditions</a>
                      </div>
                   </div>
-               </div>
             </footer>
          </div>
       </div>
