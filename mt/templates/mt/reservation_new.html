@@ -4,7 +4,7 @@
 <div class="col-md-4">
    {% if user.is_authenticated and user.groups.all.0.name == "staff" %}
       <h1>Update a Reservation</h1>
-   {% if user.is_authenticated and user.groups.all.0.name == "resident" %}
+   {% elif user.is_authenticated and user.groups.all.0.name == "resident" %}
        <h1>Add a New Reservation</h1>
    {% endif %}
    <ol class="breadcrumb mb-4">
@@ -13,7 +13,7 @@
 
       {% if user.is_authenticated and user.groups.all.0.name == "staff" %}
          <li class="breadcrumb-item active">Edit Reservation Information</li>
-      {% if user.is_authenticated and user.groups.all.0.name == "resident" %}
+      {% elif user.is_authenticated and user.groups.all.0.name == "resident" %}
           <li class="breadcrumb-item active">Add Reservation Information</li>
        {% endif %}
    </ol>
