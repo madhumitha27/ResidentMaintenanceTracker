@@ -2,11 +2,19 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="col-md-4">
-   <h1>Add a New Reservation</h1>
+   {% if user.is_authenticated and user.groups.all.0.name == "staff" %}
+      <h1>Update a Reservation</h1>
+   {% if user.is_authenticated and user.groups.all.0.name == "resident" %}
+       <h1>Add a New Reservation</h1>
+   (% endif %}
    <ol class="breadcrumb mb-4">
       <li class="breadcrumb-item"><a href="{% url 'mt:home' %}">Dashboard</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'mt:package_list' %}">PackageList Information</a></li>
-      <li class="breadcrumb-item active">Add Package Information</li>
+      <li class="breadcrumb-item"><a href="{% url 'mt:package_list' %}">Booking List Information</a></li>
+
+      {% if user.is_authenticated and user.groups.all.0.name == "staff" %}
+         <li class="breadcrumb-item active">Edit Reservation Information</li>
+      {% if user.is_authenticated and user.groups.all.0.name == "resident" %}
+          <li class="breadcrumb-item active">Add Reservation Information</li>
    </ol>
    <form method="POST" class="service-form">{% csrf_token %}
       {{ form|crispy }}
