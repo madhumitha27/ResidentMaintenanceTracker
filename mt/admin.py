@@ -65,7 +65,7 @@ class RequestExportCsvMixin ( object ) :
 class EventsExportCsvMixin ( object ) :
     def export_as_csv( self, request, queryset ):
         meta = self.model._meta
-        eventsDetail = EventsDetail.objects.all().only('username','eventDate','eventStartTime','eventEndTime','description',
+        eventsDetail = EventsDetail.objects.all().only('username','eventDate','StartTime','EndTime','description',
                     'amount','advAmtPaid', 'location','status','reason','participantCount','created_date',
                        'updated_date', 'modifiedBy')
         field_names = ['UserName','Event Date','Event Start Time','Event End Time','Description','Amount','Adv. Amount Paid',
@@ -76,8 +76,8 @@ class EventsExportCsvMixin ( object ) :
         writer.writerow(field_names)
         for events in eventsDetail :
             writer.writerow ( [events.username , events.eventDate.strftime ( "%d-%m-%Y" ),
-                               events.eventStartTime.strftime ( "%H:%M:%S" ),
-                               events.eventEndTime.strftime( "%H:%M:%S" ),events.description , events.amount,
+                               events.StartTime.strftime ( "%H:%M:%S" ),
+                               events.EndTime.strftime( "%H:%M:%S" ),events.description , events.amount,
                                events.advAmtPaid,events.location,events.status,events.reason,events.participantCount,
                                events.created_date.strftime ( "%d-%m-%Y %H:%M:%S" ),
                                events.updated_date.strftime ( "%d-%m-%Y %H:%M:%S" ),events.modifiedBy] )
@@ -121,7 +121,7 @@ class RequestDetailList(admin.ModelAdmin,RequestExportCsvMixin):
 admin.site.register(RequestDetail,RequestDetailList)
 
 class EventsDetailList(admin.ModelAdmin,EventsExportCsvMixin):
-    list_display = ('username','eventDate', 'eventStartTime','eventEndTime', 'location','status','reason')
+    list_display = ('username','eventDate', 'StartTime','EndTime', 'location','status','reason')
     list_filter = ( 'username','location','status',('eventDate', DateRangeFilter),EventStatusFilter)
     search_fields = ('username',)
     ordering = ['eventDate']

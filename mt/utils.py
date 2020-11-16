@@ -33,7 +33,7 @@ class StaffCalendar(HTMLCalendar):
 		for event in events_per_day:
 			resident = ResidentDetail.objects.get ( id=event.username_id)
 			user = User.objects.get ( pk=resident.username_id )
-			d += f'<label>{user.first_name}- {user.last_name},{event.eventStartTime.strftime("%H:%M")}-{event.eventEndTime.strftime("%H:%M")},<br/>{event.location}</label><br/>'
+			d += f'<label>{user.first_name}- {user.last_name},{event.StartTime.strftime("%H:%M")}-{event.EndTime.strftime("%H:%M")},<br/>{event.location}</label><br/>'
 
 		if day != 0:
 			return f"<td><span class='date'>{day}</span><ul style=\"margin:top:50px; font-size:15px;\"> {d} </ul></td>"

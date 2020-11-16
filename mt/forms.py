@@ -45,12 +45,12 @@ class RequestsForm(forms.ModelForm):
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = EventsDetail
-        fields = ('eventDate', 'eventStartTime','eventEndTime','description', 'location','participantCount')
+        fields = ('eventDate', 'StartTime','EndTime','description', 'location','participantCount')
     def __init__ ( self , *args , **kwargs ) :
         super ( ReservationForm , self ).__init__ ( *args , **kwargs )
         self.fields['eventDate'].widget = DateInput ( )
-        self.fields['eventStartTime'].widget = TimeInput ( )
-        self.fields['eventEndTime'].widget = TimeInput ( )
+        self.fields['StartTime'].widget = TimeInput ( )
+        self.fields['EndTime'].widget = TimeInput ( )
 
 class PackageForm(forms.ModelForm):
     class Meta:
@@ -88,13 +88,13 @@ class RequestsEditForm(forms.ModelForm):
 class ReservationEditForm(forms.ModelForm):
     class Meta:
         model = EventsDetail
-        fields = ('eventDate' , 'eventStartTime' ,'eventEndTime', 'description' , 'location' , 'participantCount','status','reason','amount','advAmtPaid')
+        fields = ('eventDate' , 'StartTime' ,'EndTime', 'description' , 'location' , 'participantCount','status','reason','amount','advAmtPaid')
 
     def __init__ ( self , *args , **kwargs ) :
         super ( ReservationEditForm , self ).__init__ ( *args , **kwargs )
         self.fields['eventDate'].disabled = True
-        self.fields['eventStartTime'].disabled = True
-        self.fields['eventEndTime'].disabled = True
+        self.fields['StartTime'].disabled = True
+        self.fields['EndTime'].disabled = True
         self.fields['description'].disabled = True
         self.fields['location'].disabled = True
         self.fields['participantCount'].disabled = True
